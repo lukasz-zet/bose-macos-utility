@@ -8,6 +8,7 @@
 import Cocoa
 import IOBluetooth
 
+// TODO: add documentation to each method
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     // Keep a reference to the status bar item to keep it alive throughout the whole lifetime of the application
@@ -15,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarMenu: NSMenu!
     var selectDeviceMenu: NSMenu!
     var pairedDevices: [IOBluetoothDevice] = []
+    var channel: IOBluetoothRFCOMMChannel?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // We need to setup the status bar first, since we want to add the paired devices to it in the second call
@@ -123,11 +125,9 @@ extension AppDelegate {
             deviceItem.title = device.name
             self.selectDeviceMenu.addItem(deviceItem)
         }
-        
-        self.selectDeviceMenu
     }
     
-    func connectToHeadphones(with name: String) -> Bool {
+    func connectToDevice(with name: String) -> Bool {
         guard let device = self.pairedDevices.first(where: { $0.name == name }) else {
             print("Could not find the selected device")
             return false
@@ -158,9 +158,13 @@ extension AppDelegate {
         // Open a rfcomm channel to the headset
         // Headphones use the "SPP Dev" service to provide information for the app on iOS devices, we can use the same one here
         var channel: IOBluetoothRFCOMMChannel? = nil
+        
         let ret2 = device.openRFCOMMChannelSync(&channel,
-                                                    withChannelID: channelId,
-                                                    delegate: self)
+                                                withChannelID: channelId,
+                                                delegate: self)
+        
+        // Set the reference for later
+        self.channel = channel
         if ret2 != kIOReturnSuccess {
             fatalError("Failed to open an rfcomm channel")
         }
@@ -195,15 +199,40 @@ extension AppDelegate {
     }
     
     @objc func noiseCancellationOff() {
-        print("turn the noise cancellation off")
+        print("Turning the noise cancellation off")
+        var data: [UInt8] = [0x01, 0x06, 0x02, 0x01, 0x00]
+        // If the channel is open send the appropriate data on it. How did I figure out what to send? Check README.md for information
+        if let isOpen = self.channel?.isOpen(), isOpen {
+            var result: [UInt8] = []
+            let ret = channel?.writeAsync(&data, length: UInt16(data.count), refcon: &result)
+            print(krToString(ret!))
+        } else {
+            print("The channel is not open")
+        }
     }
     
     @objc func noiseCancellationMedium() {
-        print("medium")
+        print("Turning the noise cancellation to medium setting")
+        var data: [UInt8] = [0x01, 0x06, 0x02, 0x01, 0x03]
+        if let isOpen = self.channel?.isOpen(), isOpen {
+            var result: [UInt8] = []
+            let ret = channel?.writeAsync(&data, length: UInt16(data.count), refcon: &result)
+            print(krToString(ret!))
+        } else {
+            print("The channel is not open")
+        }
     }
     
     @objc func noiseCancellationHigh() {
-        print("high")
+        print("Turning the noise cancellation to high setting")
+        var data: [UInt8] = [0x01, 0x06, 0x02, 0x01, 0x01]
+        if let isOpen = self.channel?.isOpen(), isOpen {
+            var result: [UInt8] = []
+            let ret = channel?.writeAsync(&data, length: UInt16(data.count), refcon: &result)
+            print(krToString(ret!))
+        } else {
+            print("The channel is not open")
+        }
     }
     
     @objc func refreshPairedDevicesList() {
@@ -224,7 +253,21 @@ extension AppDelegate {
             print("Invalid sender. Something went wrong")
             return
         }
-        print(senderItem.title)
+        
+        // Connect to the device with a name that is equal to the sender title
+        if self.connectToDevice(with: senderItem.title) {
+            print("Successfully connected to the Bose headphones")
+        } else {
+            print("Something went wrong")
+        }
+    }
+    
+    func krToString (_ kr: kern_return_t) -> String {
+        if let cStr = mach_error_string(kr) {
+            return String (cString: cStr)
+        } else {
+            return "Unknown kernel error \(kr)"
+        }
     }
 }
 
@@ -235,6 +278,6 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     func menuDidClose(_ menu: NSMenu) {
-        print("CLOSE")
+        
     }
 }
