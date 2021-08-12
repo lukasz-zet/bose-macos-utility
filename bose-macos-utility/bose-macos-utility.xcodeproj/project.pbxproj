@@ -8,19 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		B030FD372683DB5C007BF571 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B030FD362683DB5C007BF571 /* AppDelegate.swift */; };
-		B030FD392683DB5C007BF571 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B030FD382683DB5C007BF571 /* ViewController.swift */; };
 		B030FD3B2683DB60007BF571 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B030FD3A2683DB60007BF571 /* Assets.xcassets */; };
 		B030FD3E2683DB60007BF571 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B030FD3C2683DB60007BF571 /* Main.storyboard */; };
+		B082781F26C5D087007C0AC7 /* NSMenuExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = B082781E26C5D087007C0AC7 /* NSMenuExtended.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B030FD332683DB5C007BF571 /* bose-macos-utility.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bose-macos-utility.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B030FD362683DB5C007BF571 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B030FD382683DB5C007BF571 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B030FD3A2683DB60007BF571 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B030FD3D2683DB60007BF571 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B030FD3F2683DB60007BF571 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B030FD402683DB60007BF571 /* bose_macos_utility.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = bose_macos_utility.entitlements; sourceTree = "<group>"; };
+		B082781E26C5D087007C0AC7 /* NSMenuExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuExtended.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				B030FD362683DB5C007BF571 /* AppDelegate.swift */,
-				B030FD382683DB5C007BF571 /* ViewController.swift */,
+				B082781E26C5D087007C0AC7 /* NSMenuExtended.swift */,
 				B030FD3A2683DB60007BF571 /* Assets.xcassets */,
 				B030FD3C2683DB60007BF571 /* Main.storyboard */,
 				B030FD3F2683DB60007BF571 /* Info.plist */,
@@ -132,7 +132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B030FD392683DB5C007BF571 /* ViewController.swift in Sources */,
+				B082781F26C5D087007C0AC7 /* NSMenuExtended.swift in Sources */,
 				B030FD372683DB5C007BF571 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
