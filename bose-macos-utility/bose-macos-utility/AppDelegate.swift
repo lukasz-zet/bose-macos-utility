@@ -118,11 +118,11 @@ extension AppDelegate {
         
         // Set up the initial menus
         devices.forEach { device in
-            let deviceItem = NSMenuItem(title: device.name,
+            let deviceItem = NSMenuItem(title: device.nameOrAddress ?? "unknown",
                                         action: #selector(deviceSelected(sender:)),
                                         keyEquivalent: "")
             deviceItem.indentationLevel = 1
-            deviceItem.title = device.name
+            deviceItem.title = device.nameOrAddress ?? "unknown"
             self.selectDeviceMenu.addItem(deviceItem)
         }
     }
